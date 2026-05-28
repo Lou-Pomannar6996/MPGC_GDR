@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.unicam.cs.mpgc.rpg119563.view.GameViewController"
+            style="-fx-padding: 20;">
+
+    <!-- TOP: indicatori franchise -->
+    <top>
+        <HBox spacing="30" style="-fx-padding: 0 0 20 0;">
+            <Label fx:id="eraLabel"        text="Era: —"/>
+            <Label fx:id="levelLabel"      text="Livello: —"/>
+            <Label fx:id="moneyLabel"      text="💰 —"/>
+            <Label fx:id="reputationLabel" text="⭐ —"/>
+        </HBox>
+    </top>
+
+    <!-- CENTER: evento corrente -->
+    <center>
+        <VBox alignment="CENTER" spacing="12">
+            <Label fx:id="eventTitleLabel" text="—" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+            <Label fx:id="eventDescLabel"  text="Premi 'Prossimo Turno' per iniziare." wrapText="true"/>
+        </VBox>
+    </center>
+
+    <!-- BOTTOM: azioni -->
+    <bottom>
+        <HBox spacing="16" alignment="CENTER" style="-fx-padding: 20 0 0 0;">
+            <Button fx:id="nextTurnButton" text="Prossimo Turno" onAction="#onNextTurn"/>
+            <Button fx:id="saveButton"     text="Salva"          onAction="#onSave"/>
+        </HBox>
+    </bottom>
+</BorderPane>

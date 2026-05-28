@@ -1,0 +1,17 @@
+# Build
+build/
+.gradle/
+out/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.class
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Savegame (dati utente, non vanno in repo)
+.franchisequest/

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.unicam.cs.mpgc.rpg119563.view.MainMenuController"
+      alignment="CENTER" spacing="20" style="-fx-padding: 40;">
+
+    <Label text="FranchiseQuest" style="-fx-font-size: 32; -fx-font-weight: bold;"/>
+
+    <Button fx:id="newGameButton"  text="Nuova Partita"  onAction="#onNewGame"  prefWidth="200"/>
+    <Button fx:id="loadGameButton" text="Carica Partita" onAction="#onLoadGame" prefWidth="200"/>
+    <Button fx:id="exitButton"     text="Esci"           onAction="#onExit"     prefWidth="200"/>
+</VBox>

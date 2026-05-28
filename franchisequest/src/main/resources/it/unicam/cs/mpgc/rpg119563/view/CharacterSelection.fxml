@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.unicam.cs.mpgc.rpg119563.view.CharacterSelectionViewController"
+      alignment="CENTER" spacing="16" style="-fx-padding: 40;">
+
+    <Label text="Scegli la tua Brigata" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+
+    <Label text="Personaggio Sala (Carisma)"/>
+    <TextField fx:id="hallNameField" promptText="Nome personaggio sala"/>
+
+    <Label text="Personaggio Cucina (Skill)"/>
+    <TextField fx:id="kitchenNameField" promptText="Nome personaggio cucina"/>
+
+    <Label text="Personaggio Amministrazione (Management)"/>
+    <TextField fx:id="adminNameField" promptText="Nome personaggio admin"/>
+
+    <Button fx:id="confirmButton" text="Conferma Brigata" onAction="#onConfirm" prefWidth="200"/>
+</VBox>
