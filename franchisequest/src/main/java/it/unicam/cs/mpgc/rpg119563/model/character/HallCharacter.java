@@ -22,7 +22,8 @@ public class HallCharacter extends Character {
     public RoleType getRoleType() { return RoleType.HALL; }
 
     @Override
-    public void applyBonus(EventEffect effect) {
-        // TODO: applicare bonus reputazione basato su charisma
+    public EventEffect applyBonus(EventEffect effect) {
+        if (effect.getReputationDelta() <= 0) return effect;
+        return effect.add(0, charisma);
     }
 }

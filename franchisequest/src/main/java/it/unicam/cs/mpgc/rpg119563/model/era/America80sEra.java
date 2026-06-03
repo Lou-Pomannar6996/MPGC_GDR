@@ -19,5 +19,6 @@ public class America80sEra implements Era {
     @Override public String getName() { return "America anni '80"; }
     @Override public int getMaxLevel() { return 100; }
     @Override public List<HistoricalEvent> getAvailableEvents() { return events; }
+    @Override public EraType getType() { return EraType.AMERICA_80S; }
     @Override public HistoricalEvent generateEvent() { return events.get(random.nextInt(events.size())); }
 }

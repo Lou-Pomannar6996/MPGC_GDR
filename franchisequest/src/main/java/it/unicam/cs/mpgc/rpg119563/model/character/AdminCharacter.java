@@ -22,7 +22,10 @@ public class AdminCharacter extends Character {
     public RoleType getRoleType() { return RoleType.ADMIN; }
 
     @Override
-    public void applyBonus(EventEffect effect) {
-        // TODO: applicare bonus economico basato su management
+    public EventEffect applyBonus(EventEffect effect) {
+        int bonus = management / 2;
+        int extraMoney      = effect.getMoneyDelta()      > 0 ? bonus : 0;
+        int extraReputation = effect.getReputationDelta() > 0 ? bonus : 0;
+        return effect.add(extraMoney, extraReputation);
     }
 }

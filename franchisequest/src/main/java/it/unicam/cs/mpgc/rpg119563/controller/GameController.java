@@ -10,6 +10,7 @@ import it.unicam.cs.mpgc.rpg119563.model.state.GameState;
 import it.unicam.cs.mpgc.rpg119563.persistence.SaveFileValidator;
 import it.unicam.cs.mpgc.rpg119563.persistence.XmlLoadManager;
 import it.unicam.cs.mpgc.rpg119563.persistence.XmlSaveManager;
+import java.util.Optional;
 
 /**
  * Coordina il flusso di gioco: turni, eventi, aggiornamento indicatori, persistenza.
@@ -46,16 +47,25 @@ public class GameController {
         franchise.advanceEra(nextEra);
     }
 
-    public void saveGame(EraType currentEraType) throws Exception {
-        GameState state = GameState.from(franchise, currentEraType);
-        saveManager.save(state);
+    public void saveGame() throws Exception {
+        saveManager.save(GameState.from(franchise));
     }
 
     public boolean loadGame() throws Exception {
         if (!validator.isValid(saveManager)) return false;
         GameState state = loadManager.load(saveManager);
-        // TODO: ricostruire Franchise da GameState
+        Era era = EraFactory.create(state.getEraType());
+        this.franchise = new Franchise(state.getBrigade(), era, state.getMoney(), state.getReputation());
+        this.franchise.setLevel(state.getLevel());
         return true;
+    }
+
+    /** Restituisce il tipo dell'era successiva, o empty se siamo all'ultima. */
+    public Optional<EraType> nextEraType() {
+        EraType current = franchise.getCurrentEra().getType();
+        EraType[] all   = EraType.values();
+        int next        = current.ordinal() + 1;
+        return next < all.length ? Optional.of(all[next]) : Optional.empty();
     }
 
     public Franchise getFranchise() { return franchise; }

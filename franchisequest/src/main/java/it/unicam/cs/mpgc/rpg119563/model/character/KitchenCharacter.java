@@ -22,7 +22,8 @@ public class KitchenCharacter extends Character {
     public RoleType getRoleType() { return RoleType.KITCHEN; }
 
     @Override
-    public void applyBonus(EventEffect effect) {
-        // TODO: applicare bonus produzione basato su skill
+    public EventEffect applyBonus(EventEffect effect) {
+        if (effect.getMoneyDelta() <= 0) return effect;
+        return effect.add(skill * 10, 0);
     }
 }

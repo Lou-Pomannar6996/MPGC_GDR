@@ -32,6 +32,7 @@ public class AncientEgyptEra implements Era {
     @Override public String getName() { return "Antico Egitto"; }
     @Override public int getMaxLevel() { return MAX_LEVEL; }
     @Override public List<HistoricalEvent> getAvailableEvents() { return events; }
+    @Override public EraType getType() { return EraType.ANCIENT_EGYPT; }
 
     @Override
     public HistoricalEvent generateEvent() {

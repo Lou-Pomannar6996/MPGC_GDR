@@ -14,4 +14,5 @@ public interface Era extends EventSource {
     String getName();
     int getMaxLevel();
     List<HistoricalEvent> getAvailableEvents();
+    EraType getType();
 }

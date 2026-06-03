@@ -26,8 +26,9 @@ public class Franchise implements FranchiseManager {
 
     @Override
     public void applyEffect(EventEffect effect) {
-        this.money      += effect.getMoneyDelta();
-        this.reputation += effect.getReputationDelta();
+        EventEffect boosted = brigade.applyAllBonuses(effect);
+        this.money      += boosted.getMoneyDelta();
+        this.reputation += boosted.getReputationDelta();
         // Impedisce valori negativi
         if (this.money < 0)      this.money = 0;
         if (this.reputation < 0) this.reputation = 0;
@@ -52,6 +53,7 @@ public class Franchise implements FranchiseManager {
     public void    setBrigade(Brigade b)    { this.brigade = b; }
     public Era     getCurrentEra()          { return currentEra; }
     public int     getLevel()               { return level; }
+    public void    setLevel(int level)      { this.level = level; }
     @Override public int getMoney()         { return money; }
     @Override public int getReputation()    { return reputation; }
 }

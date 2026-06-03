@@ -8,11 +8,12 @@ import it.unicam.cs.mpgc.rpg119563.model.era.EraFactory;
 import it.unicam.cs.mpgc.rpg119563.model.franchise.Franchise;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 /**
  * Controller JavaFX per la selezione della brigata.
  */
-public class CharacterSelectionViewController {
+public class CharacterSelectionViewController implements GameAware {
 
     @FXML private TextField hallNameField;
     @FXML private TextField kitchenNameField;
@@ -22,25 +23,35 @@ public class CharacterSelectionViewController {
     private final CharacterSelectionController selectionController = new CharacterSelectionController();
     private GameController gameController;
 
+    @Override
     public void setGameController(GameController gc) {
         this.gameController = gc;
     }
 
     @FXML
     public void onConfirm() {
-        // TODO: leggere valori dai campi e validare input
-        HallCharacter    hall    = new HallCharacter(hallNameField.getText(), 1, 5);
-        KitchenCharacter kitchen = new KitchenCharacter(kitchenNameField.getText(), 1, 5);
-        AdminCharacter   admin   = new AdminCharacter(adminNameField.getText(), 1, 5);
+        String hallName    = hallNameField.getText().trim();
+        String kitchenName = kitchenNameField.getText().trim();
+        String adminName   = adminNameField.getText().trim();
 
-        selectionController.selectHall(hall);
-        selectionController.selectKitchen(kitchen);
-        selectionController.selectAdmin(admin);
+        if (hallName.isEmpty() || kitchenName.isEmpty() || adminName.isEmpty()) {
+            new Alert(Alert.AlertType.WARNING, "Tutti i nomi devono essere compilati.").showAndWait();
+            return;
+        }
 
-        Brigade brigade = selectionController.buildBrigade();
+        selectionController.selectHall(new HallCharacter(hallName, 1, 5));
+        selectionController.selectKitchen(new KitchenCharacter(kitchenName, 1, 5));
+        selectionController.selectAdmin(new AdminCharacter(adminName, 1, 5));
+
+        Brigade   brigade   = selectionController.buildBrigade();
         Franchise franchise = new Franchise(brigade, EraFactory.first(), 1000, 50);
         gameController.newGame(franchise);
 
-        // TODO: aprire GameView
+        try {
+            Stage stage = (Stage) confirmButton.getScene().getWindow();
+            SceneNavigator.goTo(stage, SceneNavigator.GAME_VIEW, gameController);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

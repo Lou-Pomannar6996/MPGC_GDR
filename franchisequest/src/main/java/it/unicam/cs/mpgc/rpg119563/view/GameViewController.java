@@ -2,6 +2,7 @@ package it.unicam.cs.mpgc.rpg119563.view;
 
 import it.unicam.cs.mpgc.rpg119563.controller.FranchiseController;
 import it.unicam.cs.mpgc.rpg119563.controller.GameController;
+import it.unicam.cs.mpgc.rpg119563.model.era.EraType;
 import it.unicam.cs.mpgc.rpg119563.model.event.HistoricalEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,7 +11,7 @@ import javafx.scene.control.*;
  * Controller JavaFX per la schermata principale di gioco.
  * Mostra indicatori del franchise e gestisce il turno.
  */
-public class GameViewController {
+public class GameViewController implements GameAware {
 
     @FXML private Label  eraLabel;
     @FXML private Label  levelLabel;
@@ -24,7 +25,8 @@ public class GameViewController {
     private GameController      gameController;
     private FranchiseController franchiseController;
 
-    public void init(GameController gc) {
+    @Override
+    public void setGameController(GameController gc) {
         this.gameController      = gc;
         this.franchiseController = new FranchiseController(gc.getFranchise());
         refreshUI();
@@ -38,18 +40,36 @@ public class GameViewController {
         refreshUI();
 
         if (gameController.canAdvanceEra()) {
-            // TODO: mostrare dialog avanzamento era
+            gameController.nextEraType().ifPresentOrElse(
+                this::showAdvanceEraDialog,
+                () -> {
+                    new Alert(Alert.AlertType.INFORMATION, "Hai completato tutte le ere. Fine del gioco!").showAndWait();
+                    nextTurnButton.setDisable(true);
+                }
+            );
         }
     }
 
     @FXML
     public void onSave() {
         try {
-            // TODO: passare EraType corrente
-            // gameController.saveGame(currentEraType);
+            gameController.saveGame();
+            new Alert(Alert.AlertType.INFORMATION, "Partita salvata.").showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Errore nel salvataggio: " + e.getMessage()).showAndWait();
         }
+    }
+
+    private void showAdvanceEraDialog(EraType next) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Hai completato l'era " + franchiseController.getEraName() + "!");
+        alert.setContentText("Vuoi avanzare all'era successiva?");
+        alert.showAndWait().ifPresent(button -> {
+            if (button == ButtonType.OK) {
+                gameController.advanceEra(next);
+                refreshUI();
+            }
+        });
     }
 
     private void refreshUI() {

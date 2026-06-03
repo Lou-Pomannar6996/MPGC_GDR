@@ -1,6 +1,7 @@
 package it.unicam.cs.mpgc.rpg119563.model.brigade;
 
 import it.unicam.cs.mpgc.rpg119563.model.character.*;
+import it.unicam.cs.mpgc.rpg119563.model.event.EventEffect;
 
 /**
  * Aggregato dei tre personaggi della brigata (uno per ruolo).
@@ -18,6 +19,16 @@ public class Brigade {
         this.hallCharacter    = hall;
         this.kitchenCharacter = kitchen;
         this.adminCharacter   = admin;
+    }
+
+    /**
+     * Applica in sequenza i bonus di tutti e tre i personaggi all'effetto base.
+     * Ogni personaggio riceve l'effetto già modificato dal precedente.
+     */
+    public EventEffect applyAllBonuses(EventEffect base) {
+        EventEffect withHall    = hallCharacter.applyBonus(base);
+        EventEffect withKitchen = kitchenCharacter.applyBonus(withHall);
+        return adminCharacter.applyBonus(withKitchen);
     }
 
     public HallCharacter    getHallCharacter()    { return hallCharacter; }
