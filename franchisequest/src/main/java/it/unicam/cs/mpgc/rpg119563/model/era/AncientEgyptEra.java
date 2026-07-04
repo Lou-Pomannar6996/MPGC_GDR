@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class AncientEgyptEra implements Era {
 
-    private static final int MAX_LEVEL = 100;
+    private static final int MAX_LEVEL = 10;
     private final Random random = new Random();
 
     private final List<HistoricalEvent> events = List.of(

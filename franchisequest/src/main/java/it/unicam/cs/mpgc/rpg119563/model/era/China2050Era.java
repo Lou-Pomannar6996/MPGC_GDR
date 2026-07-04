@@ -17,7 +17,7 @@ public class China2050Era implements Era {
     );
 
     @Override public String getName() { return "Cina 2050"; }
-    @Override public int getMaxLevel() { return 100; }
+    @Override public int getMaxLevel() { return 10; }
     @Override public List<HistoricalEvent> getAvailableEvents() { return events; }
     @Override public EraType getType() { return EraType.CHINA_2050; }
     @Override public HistoricalEvent generateEvent() { return events.get(random.nextInt(events.size())); }

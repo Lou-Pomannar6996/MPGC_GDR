@@ -17,7 +17,7 @@ public class AncientRomeEra implements Era {
     );
 
     @Override public String getName() { return "Antica Roma"; }
-    @Override public int getMaxLevel() { return 100; }
+    @Override public int getMaxLevel() { return 10; }
     @Override public List<HistoricalEvent> getAvailableEvents() { return events; }
     @Override public EraType getType() { return EraType.ANCIENT_ROME; }
     @Override public HistoricalEvent generateEvent() { return events.get(random.nextInt(events.size())); }
