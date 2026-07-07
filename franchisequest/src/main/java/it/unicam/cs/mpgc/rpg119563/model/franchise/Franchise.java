@@ -34,6 +34,13 @@ public class Franchise implements FranchiseManager {
         if (this.reputation < 0) this.reputation = 0;
     }
 
+    public void applyEffectDirect(EventEffect effect) {
+        this.money      += effect.getMoneyDelta();
+        this.reputation += effect.getReputationDelta();
+        if (this.money < 0)      this.money = 0;
+        if (this.reputation < 0) this.reputation = 0;
+    }
+
     public void levelUp() {
         if (level < currentEra.getMaxLevel()) level++;
     }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.unicam.cs.mpgc.rpg119563.view.minigame.KitchenMinigameController"
+      prefWidth="420" prefHeight="370"
+      spacing="20"
+      style="-fx-padding: 24; -fx-background-color: #fff4ee; -fx-alignment: center;">
+
+    <Label fx:id="characterNameLabel"
+           style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+
+    <Label text="Clicca il bottone almeno 20 volte in 5 secondi!"
+           style="-fx-font-size: 13; -fx-wrap-text: true;"/>
+
+    <HBox spacing="40" style="-fx-alignment: center;">
+        <Label fx:id="timerLabel"
+               style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+        <Label fx:id="clickLabel"
+               style="-fx-font-size: 18;"/>
+    </HBox>
+
+    <Button fx:id="clickButton" text="CLICCA!"
+            prefWidth="200" prefHeight="80"
+            onAction="#onClickButton"
+            style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+
+    <Label fx:id="resultLabel" text=" "
+           style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+</VBox>

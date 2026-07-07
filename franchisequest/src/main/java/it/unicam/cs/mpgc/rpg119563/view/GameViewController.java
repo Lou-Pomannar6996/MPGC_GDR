@@ -2,14 +2,21 @@ package it.unicam.cs.mpgc.rpg119563.view;
 
 import it.unicam.cs.mpgc.rpg119563.controller.FranchiseController;
 import it.unicam.cs.mpgc.rpg119563.controller.GameController;
+import it.unicam.cs.mpgc.rpg119563.model.character.Character;
+import it.unicam.cs.mpgc.rpg119563.model.character.CharacterRole;
 import it.unicam.cs.mpgc.rpg119563.model.era.EraType;
 import it.unicam.cs.mpgc.rpg119563.model.event.HistoricalEvent;
+import it.unicam.cs.mpgc.rpg119563.view.minigame.MinigameController;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * Controller JavaFX per la schermata principale di gioco.
- * Mostra indicatori del franchise e gestisce il turno.
+ * Mostra indicatori del franchise e gestisce il turno con minigioco.
  */
 public class GameViewController implements GameAware {
 
@@ -20,7 +27,6 @@ public class GameViewController implements GameAware {
     @FXML private Label  eventTitleLabel;
     @FXML private Label  eventDescLabel;
     @FXML private Button nextTurnButton;
-    @FXML private Button saveButton;
 
     private GameController      gameController;
     private FranchiseController franchiseController;
@@ -34,9 +40,16 @@ public class GameViewController implements GameAware {
 
     @FXML
     public void onNextTurn() {
-        HistoricalEvent event = gameController.nextTurn();
+        HistoricalEvent event = gameController.prepareTurn();
         eventTitleLabel.setText(event.getTitle());
         eventDescLabel.setText(event.getDescription());
+
+        boolean won = openMinigame(
+            gameController.getSelectedCharacter(),
+            gameController.getFranchise().getCurrentEra().getType()
+        );
+
+        gameController.finalizeTurn(won);
         refreshUI();
 
         if (gameController.canAdvanceEra()) {
@@ -47,6 +60,33 @@ public class GameViewController implements GameAware {
                     nextTurnButton.setDisable(true);
                 }
             );
+        }
+    }
+
+    private boolean openMinigame(CharacterRole character, EraType eraType) {
+        try {
+            String fxml = switch (character.getRoleType()) {
+                case HALL    -> "/it/unicam/cs/mpgc/rpg119563/view/HallMinigame.fxml";
+                case KITCHEN -> "/it/unicam/cs/mpgc/rpg119563/view/KitchenMinigame.fxml";
+                case ADMIN   -> "/it/unicam/cs/mpgc/rpg119563/view/AdminMinigame.fxml";
+            };
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Minigioco — " + ((Character) character).getName());
+            stage.setScene(new Scene(loader.load()));
+            stage.setResizable(false);
+
+            MinigameController mc = loader.getController();
+            mc.init(((Character) character).getName(), eraType);
+
+            stage.showAndWait();
+            return mc.isWon();
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Errore apertura minigioco: " + e.getMessage()).showAndWait();
+            return false;
         }
     }
 

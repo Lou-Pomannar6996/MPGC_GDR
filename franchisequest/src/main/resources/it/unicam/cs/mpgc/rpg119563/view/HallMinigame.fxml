@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.unicam.cs.mpgc.rpg119563.view.minigame.HallMinigameController"
+      prefWidth="500" prefHeight="460"
+      spacing="12"
+      style="-fx-padding: 18; -fx-background-color: #f5f0e8; -fx-alignment: top-center;">
+
+    <Label fx:id="characterNameLabel"
+           style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+
+    <Label text="Clicca almeno 5 bottoni in 5 secondi!"
+           style="-fx-font-size: 13;"/>
+
+    <HBox spacing="30">
+        <Label fx:id="timerLabel"
+               style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+        <Label fx:id="scoreLabel"
+               style="-fx-font-size: 16;"/>
+    </HBox>
+
+    <AnchorPane fx:id="gameArea"
+                prefWidth="460" prefHeight="300"
+                style="-fx-background-color: #ddd8cc; -fx-border-color: #999; -fx-border-radius: 4;"/>
+
+    <Label fx:id="resultLabel" text=" "
+           style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+</VBox>

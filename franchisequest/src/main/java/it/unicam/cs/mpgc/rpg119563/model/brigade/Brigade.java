@@ -2,6 +2,7 @@ package it.unicam.cs.mpgc.rpg119563.model.brigade;
 
 import it.unicam.cs.mpgc.rpg119563.model.character.*;
 import it.unicam.cs.mpgc.rpg119563.model.event.EventEffect;
+import java.util.List;
 
 /**
  * Aggregato dei tre personaggi della brigata (uno per ruolo).
@@ -29,6 +30,10 @@ public class Brigade {
         EventEffect withHall    = hallCharacter.applyBonus(base);
         EventEffect withKitchen = kitchenCharacter.applyBonus(withHall);
         return adminCharacter.applyBonus(withKitchen);
+    }
+
+    public List<CharacterRole> getCharacters() {
+        return List.of(hallCharacter, kitchenCharacter, adminCharacter);
     }
 
     public HallCharacter    getHallCharacter()    { return hallCharacter; }

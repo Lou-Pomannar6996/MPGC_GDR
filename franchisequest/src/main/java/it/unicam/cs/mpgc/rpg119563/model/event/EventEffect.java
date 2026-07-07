@@ -22,6 +22,21 @@ public final class EventEffect {
         return new EventEffect(moneyDelta + extraMoney, reputationDelta + extraReputation);
     }
 
+    /**
+     * Applica la regola del minigioco:
+     * - bonus (delta > 0): vittoria = pieno, sconfitta = metà
+     * - malus (delta < 0): vittoria = dimezzato, sconfitta = intero
+     */
+    public EventEffect withMinigameResult(boolean won) {
+        return new EventEffect(applyRule(moneyDelta, won), applyRule(reputationDelta, won));
+    }
+
+    private static int applyRule(int delta, boolean won) {
+        if (delta > 0) return won ? delta : delta / 2;
+        if (delta < 0) return won ? delta / 2 : delta;
+        return 0;
+    }
+
     @Override
     public String toString() {
         return "EventEffect{money=" + moneyDelta + ", reputation=" + reputationDelta + "}";

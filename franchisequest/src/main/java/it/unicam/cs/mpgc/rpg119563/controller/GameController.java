@@ -1,5 +1,6 @@
 package it.unicam.cs.mpgc.rpg119563.controller;
 
+import it.unicam.cs.mpgc.rpg119563.model.character.CharacterRole;
 import it.unicam.cs.mpgc.rpg119563.model.era.Era;
 import it.unicam.cs.mpgc.rpg119563.model.era.EraFactory;
 import it.unicam.cs.mpgc.rpg119563.model.era.EraType;
@@ -10,7 +11,9 @@ import it.unicam.cs.mpgc.rpg119563.model.state.GameState;
 import it.unicam.cs.mpgc.rpg119563.persistence.SaveFileValidator;
 import it.unicam.cs.mpgc.rpg119563.persistence.XmlLoadManager;
 import it.unicam.cs.mpgc.rpg119563.persistence.XmlSaveManager;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Coordina il flusso di gioco: turni, eventi, aggiornamento indicatori, persistenza.
@@ -19,23 +22,40 @@ import java.util.Optional;
 public class GameController {
 
     private Franchise         franchise;
-    private final EventEngine eventEngine     = new EventEngine();
-    private final XmlSaveManager saveManager  = new XmlSaveManager();
-    private final XmlLoadManager loadManager  = new XmlLoadManager();
-    private final SaveFileValidator validator  = new SaveFileValidator();
+    private final EventEngine eventEngine    = new EventEngine();
+    private final XmlSaveManager saveManager = new XmlSaveManager();
+    private final XmlLoadManager loadManager = new XmlLoadManager();
+    private final SaveFileValidator validator = new SaveFileValidator();
+    private final Random random              = new Random();
+
+    private HistoricalEvent pendingEvent;
+    private CharacterRole   selectedCharacter;
 
     public void newGame(Franchise franchise) {
         this.franchise = franchise;
     }
 
     /**
-     * Esegue un turno: genera un evento, applica gli effetti, restituisce l'evento per la View.
+     * Prima fase del turno: estrae l'evento e il personaggio casuale.
+     * Non applica ancora nulla — attende il risultato del minigioco.
      */
-    public HistoricalEvent nextTurn() {
-        HistoricalEvent event = eventEngine.pickEvent(franchise.getCurrentEra());
-        franchise.applyEffect(event.getEffect());
+    public HistoricalEvent prepareTurn() {
+        pendingEvent = eventEngine.pickEvent(franchise.getCurrentEra());
+        List<CharacterRole> characters = franchise.getBrigade().getCharacters();
+        selectedCharacter = characters.get(random.nextInt(characters.size()));
+        return pendingEvent;
+    }
+
+    /** Restituisce il personaggio estratto nel prepareTurn corrente. */
+    public CharacterRole getSelectedCharacter() { return selectedCharacter; }
+
+    /**
+     * Seconda fase del turno: applica l'effetto modificato dal risultato del minigioco
+     * e fa avanzare il livello.
+     */
+    public void finalizeTurn(boolean won) {
+        franchise.applyEffectDirect(pendingEvent.getEffect().withMinigameResult(won));
         franchise.levelUp();
-        return event;
     }
 
     public boolean canAdvanceEra() {

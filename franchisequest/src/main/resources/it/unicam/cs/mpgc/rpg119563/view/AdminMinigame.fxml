@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.unicam.cs.mpgc.rpg119563.view.minigame.AdminMinigameController"
+      prefWidth="520" prefHeight="420"
+      spacing="16"
+      style="-fx-padding: 24; -fx-background-color: #edf2ff; -fx-alignment: top-center;">
+
+    <Label fx:id="characterNameLabel"
+           style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+
+    <Label text="Quiz storico — una sola possibilità!"
+           style="-fx-font-size: 13; -fx-font-style: italic;"/>
+
+    <Label fx:id="questionLabel" text=" "
+           wrapText="true" prefWidth="480"
+           style="-fx-font-size: 15; -fx-border-color: #aab; -fx-border-radius: 4;
+                  -fx-background-color: #f8f8ff; -fx-padding: 10;"/>
+
+    <VBox spacing="8" style="-fx-alignment: center;">
+        <Button fx:id="answerA" prefWidth="470" prefHeight="44"
+                onAction="#onAnswer" style="-fx-font-size: 13;"/>
+        <Button fx:id="answerB" prefWidth="470" prefHeight="44"
+                onAction="#onAnswer" style="-fx-font-size: 13;"/>
+        <Button fx:id="answerC" prefWidth="470" prefHeight="44"
+                onAction="#onAnswer" style="-fx-font-size: 13;"/>
+        <Button fx:id="answerD" prefWidth="470" prefHeight="44"
+                onAction="#onAnswer" style="-fx-font-size: 13;"/>
+    </VBox>
+
+    <Label fx:id="resultLabel" text=" "
+           style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+</VBox>
