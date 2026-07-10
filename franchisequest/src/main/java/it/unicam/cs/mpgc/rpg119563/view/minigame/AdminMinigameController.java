@@ -1,12 +1,14 @@
 package it.unicam.cs.mpgc.rpg119563.view.minigame;
 
 import it.unicam.cs.mpgc.rpg119563.model.era.EraType;
+import it.unicam.cs.mpgc.rpg119563.model.event.EventEffect;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -14,11 +16,17 @@ import java.util.*;
 
 /**
  * Minigioco Amministrazione: quiz a risposta singola sul periodo storico corrente.
- * Vittoria se si sceglie la risposta corretta.
  */
 public class AdminMinigameController implements MinigameController {
 
-    @FXML private Label  characterNameLabel;
+    // Intro panel
+    @FXML private VBox  introPanel;
+    @FXML private Label characterNameLabel;
+    @FXML private Label eventInfoLabel;
+    @FXML private Label rulesLabel;
+
+    // Game panel
+    @FXML private VBox   gamePanel;
     @FXML private Label  questionLabel;
     @FXML private Button answerA;
     @FXML private Button answerB;
@@ -26,6 +34,7 @@ public class AdminMinigameController implements MinigameController {
     @FXML private Button answerD;
     @FXML private Label  resultLabel;
 
+    private EventEffect  effect;
     private boolean      won = false;
     private int          correctButtonIndex;
     private List<Button> answerButtons;
@@ -72,23 +81,32 @@ public class AdminMinigameController implements MinigameController {
     }
 
     @Override
-    public void init(String characterName, EraType eraType) {
+    public void init(String characterName, EraType eraType, EventEffect effect) {
+        this.effect = effect;
         characterNameLabel.setText(characterName + "  —  Amministrazione");
+        eventInfoLabel.setText("Evento: " + MinigameUtils.formatEffect(effect));
+        rulesLabel.setText(MinigameUtils.buildRulesText(effect));
+
         answerButtons = List.of(answerA, answerB, answerC, answerD);
 
         List<QuizQuestion> pool = QUESTIONS.getOrDefault(eraType, QUESTIONS.get(EraType.ANCIENT_EGYPT));
         QuizQuestion q = pool.get(new Random().nextInt(pool.size()));
-
         questionLabel.setText(q.question());
 
-        // Mescola le opzioni; options[0] è la risposta corretta
         List<Integer> order = new ArrayList<>(List.of(0, 1, 2, 3));
         Collections.shuffle(order);
-
         for (int i = 0; i < 4; i++) {
             answerButtons.get(i).setText(q.options()[order.get(i)]);
             if (order.get(i) == 0) correctButtonIndex = i;
         }
+    }
+
+    @FXML
+    public void onStart() {
+        introPanel.setVisible(false);
+        introPanel.setManaged(false);
+        gamePanel.setVisible(true);
+        gamePanel.setManaged(true);
     }
 
     @FXML
@@ -102,11 +120,11 @@ public class AdminMinigameController implements MinigameController {
         if (!won)
             ((Button) e.getSource()).setStyle("-fx-background-color: #f5a0a0;");
 
-        resultLabel.setText(won ? "CORRETTO!" : "SBAGLIATO!");
-        resultLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: "
+        resultLabel.setText(MinigameUtils.buildResultText(won, effect));
+        resultLabel.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: "
             + (won ? "#2d7a2d" : "#b00020") + ";");
 
-        new Timeline(new KeyFrame(Duration.seconds(2),
+        new Timeline(new KeyFrame(Duration.seconds(2.5),
             ev -> ((Stage) questionLabel.getScene().getWindow()).close())).play();
     }
 

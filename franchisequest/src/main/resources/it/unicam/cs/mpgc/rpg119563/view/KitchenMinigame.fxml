@@ -3,28 +3,39 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.unicam.cs.mpgc.rpg119563.view.minigame.KitchenMinigameController"
-      prefWidth="420" prefHeight="370"
-      spacing="20"
-      style="-fx-padding: 24; -fx-background-color: #fff4ee; -fx-alignment: center;">
+      prefWidth="460" prefHeight="440"
+      style="-fx-padding: 18; -fx-background-color: #fff4ee; -fx-alignment: top-center; -fx-spacing: 10;">
 
-    <Label fx:id="characterNameLabel"
-           style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+    <!-- PANNELLO INTRO -->
+    <VBox fx:id="introPanel" spacing="10" style="-fx-alignment: top-center;">
+        <Label fx:id="characterNameLabel"
+               style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+        <Label fx:id="eventInfoLabel" wrapText="true" prefWidth="420"
+               style="-fx-font-size: 14; -fx-border-color: #aaa; -fx-border-radius: 4;
+                      -fx-background-color: #fffff0; -fx-padding: 8;"/>
+        <Label fx:id="rulesLabel" wrapText="true" prefWidth="420"
+               style="-fx-font-size: 13; -fx-border-color: #aaa; -fx-border-radius: 4;
+                      -fx-background-color: #f0f0ff; -fx-padding: 8;"/>
+        <Button text="INIZIA!" prefWidth="160" prefHeight="44"
+                onAction="#onStart"
+                style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+    </VBox>
 
-    <Label text="Clicca il bottone almeno 20 volte in 5 secondi!"
-           style="-fx-font-size: 13; -fx-wrap-text: true;"/>
-
-    <HBox spacing="40" style="-fx-alignment: center;">
-        <Label fx:id="timerLabel"
-               style="-fx-font-size: 18; -fx-font-weight: bold;"/>
-        <Label fx:id="clickLabel"
-               style="-fx-font-size: 18;"/>
-    </HBox>
-
-    <Button fx:id="clickButton" text="CLICCA!"
-            prefWidth="200" prefHeight="80"
-            onAction="#onClickButton"
-            style="-fx-font-size: 22; -fx-font-weight: bold;"/>
-
-    <Label fx:id="resultLabel" text=" "
-           style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <!-- PANNELLO DI GIOCO -->
+    <VBox fx:id="gamePanel" spacing="18"
+          visible="false" managed="false"
+          style="-fx-alignment: center;">
+        <HBox spacing="40" style="-fx-alignment: center;">
+            <Label fx:id="timerLabel"
+                   style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+            <Label fx:id="clickLabel"
+                   style="-fx-font-size: 18;"/>
+        </HBox>
+        <Button fx:id="clickButton" text="CLICCA!"
+                prefWidth="200" prefHeight="80"
+                onAction="#onClickButton"
+                style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+        <Label fx:id="resultLabel" text=" " wrapText="true" prefWidth="420"
+               style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+    </VBox>
 </VBox>

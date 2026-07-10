@@ -3,27 +3,38 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.unicam.cs.mpgc.rpg119563.view.minigame.HallMinigameController"
-      prefWidth="500" prefHeight="460"
-      spacing="12"
-      style="-fx-padding: 18; -fx-background-color: #f5f0e8; -fx-alignment: top-center;">
+      prefWidth="500" prefHeight="480"
+      style="-fx-padding: 18; -fx-background-color: #f5f0e8; -fx-alignment: top-center; -fx-spacing: 10;">
 
-    <Label fx:id="characterNameLabel"
-           style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+    <!-- PANNELLO INTRO (visibile all'apertura) -->
+    <VBox fx:id="introPanel" spacing="10" style="-fx-alignment: top-center;">
+        <Label fx:id="characterNameLabel"
+               style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+        <Label fx:id="eventInfoLabel" wrapText="true" prefWidth="460"
+               style="-fx-font-size: 14; -fx-border-color: #aaa; -fx-border-radius: 4;
+                      -fx-background-color: #fffff0; -fx-padding: 8;"/>
+        <Label fx:id="rulesLabel" wrapText="true" prefWidth="460"
+               style="-fx-font-size: 13; -fx-border-color: #aaa; -fx-border-radius: 4;
+                      -fx-background-color: #f0f0ff; -fx-padding: 8;"/>
+        <Button text="INIZIA!" prefWidth="160" prefHeight="44"
+                onAction="#onStart"
+                style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+    </VBox>
 
-    <Label text="Clicca almeno 5 bottoni in 5 secondi!"
-           style="-fx-font-size: 13;"/>
-
-    <HBox spacing="30">
-        <Label fx:id="timerLabel"
-               style="-fx-font-size: 16; -fx-font-weight: bold;"/>
-        <Label fx:id="scoreLabel"
-               style="-fx-font-size: 16;"/>
-    </HBox>
-
-    <AnchorPane fx:id="gameArea"
-                prefWidth="460" prefHeight="300"
-                style="-fx-background-color: #ddd8cc; -fx-border-color: #999; -fx-border-radius: 4;"/>
-
-    <Label fx:id="resultLabel" text=" "
-           style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <!-- PANNELLO DI GIOCO (nascosto all'apertura) -->
+    <VBox fx:id="gamePanel" spacing="12"
+          visible="false" managed="false"
+          style="-fx-alignment: top-center;">
+        <HBox spacing="40" style="-fx-alignment: center;">
+            <Label fx:id="timerLabel"
+                   style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+            <Label fx:id="scoreLabel"
+                   style="-fx-font-size: 18;"/>
+        </HBox>
+        <AnchorPane fx:id="gameArea"
+                    prefWidth="460" prefHeight="280"
+                    style="-fx-background-color: #ddd8cc; -fx-border-color: #999; -fx-border-radius: 4;"/>
+        <Label fx:id="resultLabel" text=" " wrapText="true" prefWidth="460"
+               style="-fx-font-size: 14; -fx-font-weight: bold;"/>
+    </VBox>
 </VBox>

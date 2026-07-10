@@ -5,6 +5,7 @@ import it.unicam.cs.mpgc.rpg119563.controller.GameController;
 import it.unicam.cs.mpgc.rpg119563.model.character.Character;
 import it.unicam.cs.mpgc.rpg119563.model.character.CharacterRole;
 import it.unicam.cs.mpgc.rpg119563.model.era.EraType;
+import it.unicam.cs.mpgc.rpg119563.model.event.EventEffect;
 import it.unicam.cs.mpgc.rpg119563.model.event.HistoricalEvent;
 import it.unicam.cs.mpgc.rpg119563.view.minigame.MinigameController;
 import javafx.fxml.FXML;
@@ -46,7 +47,8 @@ public class GameViewController implements GameAware {
 
         boolean won = openMinigame(
             gameController.getSelectedCharacter(),
-            gameController.getFranchise().getCurrentEra().getType()
+            gameController.getFranchise().getCurrentEra().getType(),
+            event.getEffect()
         );
 
         gameController.finalizeTurn(won);
@@ -63,7 +65,7 @@ public class GameViewController implements GameAware {
         }
     }
 
-    private boolean openMinigame(CharacterRole character, EraType eraType) {
+    private boolean openMinigame(CharacterRole character, EraType eraType, EventEffect effect) {
         try {
             String fxml = switch (character.getRoleType()) {
                 case HALL    -> "/it/unicam/cs/mpgc/rpg119563/view/HallMinigame.fxml";
@@ -79,7 +81,7 @@ public class GameViewController implements GameAware {
             stage.setResizable(false);
 
             MinigameController mc = loader.getController();
-            mc.init(((Character) character).getName(), eraType);
+            mc.init(((Character) character).getName(), eraType, effect);
 
             stage.showAndWait();
             return mc.isWon();
