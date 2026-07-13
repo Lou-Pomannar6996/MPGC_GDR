@@ -1,7 +1,8 @@
 # FranchiseQuest
 
 Videogioco gestionale a turni sviluppato in Java con JavaFX.  
-Il giocatore guida una brigata di tre personaggi (Sala, Cucina, Amministrazione) attraverso quattro ere storiche — Antico Egitto, Antica Roma, America anni '80, Cina 2050 — facendo crescere il proprio franchise superando eventi storici e minigiochi.
+Il giocatore guida una brigata di tre personaggi (Sala, Cucina, Amministrazione) attraverso quattro ere storiche: Antico Egitto, Antica Roma, America anni '80, Cina 2050.
+Facendo crescere il proprio franchise superando eventi storici e minigiochi.
 
 ## Requisiti
 
